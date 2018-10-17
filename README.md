@@ -9,4 +9,7 @@ This is a little bash script out of my collection that I use whenever I needed a
 ## How to use?
 1) install [slacktee](https://github.com/coursehero/slacktee), this will be used to notify slack
 2) install lynx
-3) run it as a cron job eg. `* * * * * octocat /home/octocat/online.sh`
+3) run it as a cron job e.g.
+ ```
+ * * * * * octocat SLACKTEE_WEBHOOK="https://blah.com/blah" SLACKTEE_TOKEN="secret" /home/octocat/online.sh
+ ```
