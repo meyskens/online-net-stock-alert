@@ -1,0 +1,37 @@
+language: bash
+
+
+env:
+    global:
+      - CXX=g++-4.8
+      - QEMU_VER=v2.9.1
+      - DOCKER_REPO=meyskens/online-net-stock-alert
+    matrix:
+      - ARCH=amd64  QEMU_ARCH=x86_64
+      - ARCH=armhf  QEMU_ARCH=arm    
+      - ARCH=arm64  QEMU_ARCH=aarch64
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - sudo apt-get -y install qemu qemu-user-static qemu-user binfmt-support
+  - docker run --rm --privileged multiarch/qemu-user-static:register
+os:
+- linux
+script:
+- wget -N https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VER/x86_64_qemu-${QEMU_ARCH}-static.tar.gz
+- tar -xvf x86_64_qemu-${QEMU_ARCH}-static.tar.gz
+- docker build -t $DOCKER_REPO:$ARCH-latest --build-arg ARCH="$ARCH" ./
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then docker push $DOCKER_REPO:$ARCH-latest ; fi
+ 
