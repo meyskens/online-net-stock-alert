@@ -11,5 +11,5 @@ This is a little bash script out of my collection that I use whenever I needed a
 2) install lynx
 3) run it as a cron job e.g.
  ```
- * * * * * octocat SLACKTEE_WEBHOOK="https://blah.com/blah" SLACKTEE_TOKEN="secret" /home/octocat/online.sh
+ * * * * * octocat SLACKTEE_WEBHOOK="https://blah.com/blah" /home/octocat/online.sh
  ```
