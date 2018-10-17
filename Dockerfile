@@ -3,7 +3,7 @@ FROM multiarch/alpine:${ARCH}-edge
 
 RUN apk add --no-cache bash lynx curl git
 
-RUN touch /root/.slacktee
+COPY ./.slacktee /root/.slacktee
 RUN git clone https://github.com/course-hero/slacktee.git /tmp/slacktee &&\
     cd /tmp/slacktee &&\
     bash ./install.sh /usr/bin &&\

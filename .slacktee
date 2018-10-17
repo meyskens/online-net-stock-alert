@@ -1,0 +1,6 @@
+webhook_url=""
+token=""
+channel="infra-alarms"
+tmp_dir="/tmp"
+username="Online.net Stock"
+icon="rocket"
